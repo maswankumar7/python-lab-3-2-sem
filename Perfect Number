@@ -1,0 +1,18 @@
+import math
+
+class Solution:
+    def checkPerfectNumber(self, num: int) -> bool:
+        if num <= 1:
+            return False
+
+        divisor_sum = 1
+        limit = math.isqrt(num)
+
+        for i in range(2, limit + 1):
+            if num % i == 0:
+                divisor_sum += i
+                other = num // i
+                if i != other:
+                    divisor_sum += other
+
+        return divisor_sum == num
