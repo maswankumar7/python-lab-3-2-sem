@@ -1,0 +1,40 @@
+class Solution:
+    def binarySearch(self, nums, target, start, end):
+        while start <= end:
+            # If the number of elements is even, the middle will be the last element of the first half of nums
+            #  moreover, the middle element could be the first element of the current portion of nums
+            middle = (start + end) // 2
+            if nums[middle] == target:
+                return middle
+            # In both the following cases we can exlude the middle element because
+            #  we can be sure we won’t need it anymore.
+            elif target < nums[middle]:
+                end = middle - 1
+            else:
+                start = middle + 1
+        return -1
+
+    def binarySearchForPivot(self, nums):
+        start = 0
+        end = len(nums) - 1
+        
+        while start < end:
+            middle = (start + end) // 2
+            if nums[middle] > nums[end]:
+                # we can leave the middle element out from the next half, because we are sure
+                #  it is not the pivot
+                start = middle + 1
+            else:
+                # we can't leave out the middle element because it can still be the pivot element
+                end = middle
+
+        return start
+
+    def search(self, nums: List[int], target: int) -> int:
+        pivotIndex = self.binarySearchForPivot(nums)
+        if target == nums[pivotIndex]:
+            return pivotIndex
+        elif nums[0] <= target <= nums[pivotIndex - 1 if pivotIndex > 0 else 0]:
+            return self.binarySearch(nums, target, start=0, end=pivotIndex-1)
+        else:
+            return self.binarySearch(nums, target, start=pivotIndex, end=len(nums)-1)
