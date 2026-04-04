@@ -1,0 +1,96 @@
+class Solution:
+    def islandPerimeter(self, grid):
+        rows = len(grid)
+        cols = len(grid[0])
+        perimeter = 0
+
+        for i in range(rows):
+            for j in range(cols):
+                if grid[i][j] == 1:  # Land cell found
+                    perimeter += 4
+
+                    # Check UP
+                    if i > 0 and grid[i - 1][j] == 1:
+                        perimeter -= 1
+
+                    # Check DOWN
+                    if i < rows - 1 and grid[i + 1][j] == 1:
+                        perimeter -= 1
+
+                    # Check LEFT
+                    if j > 0 and grid[i][j - 1] == 1:
+                        perimeter -= 1
+
+                    # Check RIGHT
+                    if j < cols - 1 and grid[i][j + 1] == 1:
+                        perimeter -= 1
+
+        return perimeter
+
+
+def displayGrid(grid):
+    print("Grid:")
+    for row in grid:
+        print(row)
+    print()
+
+
+def main():
+    sol = Solution()
+
+    print("=" * 50)
+    print("TEST CASE 1")
+    print("=" * 50)
+
+    grid1 = [
+        [0, 1, 0, 0],
+        [1, 1, 1, 0],
+        [0, 1, 0, 0],
+        [1, 1, 0, 0]
+    ]
+
+    displayGrid(grid1)
+    result1 = sol.islandPerimeter(grid1)
+    print(f"Perimeter: {result1}")
+    print(f"Expected: 16\n")
+
+    print("=" * 50)
+    print("TEST CASE 2")
+    print("=" * 50)
+
+    grid2 = [[1]]
+    displayGrid(grid2)
+    print(f"Perimeter: {sol.islandPerimeter(grid2)}")
+    print(f"Expected: 4\n")
+
+
+# Concise version
+def islandPerimeterConcise(grid):
+    rows, cols = len(grid), len(grid[0])
+    perimeter = 0
+
+    for i in range(rows):
+        for j in range(cols):
+            if grid[i][j] == 1:
+                perimeter += 4
+
+                if i > 0 and grid[i - 1][j] == 1:
+                    perimeter -= 2
+
+                if j > 0 and grid[i][j - 1] == 1:
+                    perimeter -= 2
+
+    return perimeter
+
+
+if __name__ == "__main__":
+    main()
+
+    print("\nConcise Version Output:")
+    grid_test = [
+        [0, 1, 0, 0],
+        [1, 1, 1, 0],
+        [0, 1, 0, 0],
+        [1, 1, 0, 0]
+    ]
+    print(islandPerimeterConcise(grid_test))
